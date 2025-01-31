@@ -1,0 +1,15 @@
+[Unit]
+Description=Wordle Bot
+Documentation=https://example.com
+After=network.target
+
+[Service]
+Environment=NODE_PORT=3001
+Type=simple
+User=pi
+ExecStart=/usr/bin/node /home/pi/node-lumi-aqara/example.js
+WorkingDirectory=/home/pi/node-lumi-aqara
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
