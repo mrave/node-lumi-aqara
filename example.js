@@ -1,4 +1,6 @@
 const Aqara = require('./src')
+const { exec } = require("child_process");
+let state = "off";
 
 const aqara = new Aqara()
 aqara.on('gateway', (gateway) => {
@@ -32,6 +34,17 @@ aqara.on('gateway', (gateway) => {
         })
         device.on('close', () => {
           console.log(`${device.getSid()} is now close`)
+          //exec("/home/pi/scripts/homebridge_lock_nuki.sh", (error, stdout, stderr) => {
+          //  if (error) {
+          //    console.log(`error: ${error.message}`);
+          //    return;
+          //  }
+          //  if (stderr) {
+          //    console.log(`stderr: ${stderr}`);
+          //    return;
+          //  }
+          //  console.log(`stdout: ${stdout}`);
+          //});
         })
         device.on('offline', () => {
           console.log(`${device.getSid()} is offline`)
@@ -56,6 +69,28 @@ aqara.on('gateway', (gateway) => {
         console.log(`  Switch`)
         device.on('click', () => {
           console.log(`${device.getSid()} is clicked`)
+          let cmd = "";
+	        if (device.getSid() == '158d000205ba1c')
+            cmd = "/home/pi/scripts/homebridge_open_gate.sh";
+          else {
+            if (state == 'off')
+              state = 'on';
+            else 
+              state = 'off'
+            cmd = "/usr/bin/python3 /home/pi/tmp/2.py " + state;
+          }
+
+		      exec(cmd, (error, stdout, stderr) => {
+	              if (error) {
+              console.log(`error: ${error.message}`);
+              return;
+            }
+            if (stderr) {
+              console.log(`stderr: ${stderr}`);
+              return;
+            }
+            console.log(`stdout: ${stdout}`);
+          });
         })
         device.on('doubleClick', () => {
           console.log(`${device.getSid()} is double clicked`)
