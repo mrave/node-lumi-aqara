@@ -2,6 +2,7 @@
 Description=Wordle Bot
 Documentation=https://example.com
 After=network.target
+After=homebridge.service
 
 [Service]
 Environment=NODE_PORT=3001

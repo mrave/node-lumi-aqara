@@ -77,7 +77,7 @@ aqara.on('gateway', (gateway) => {
               state = 'on';
             else 
               state = 'off'
-            cmd = "/usr/bin/python3 /home/pi/tmp/2.py " + state;
+            cmd = "/usr/bin/python3 /home/pi/scripts/light_switch.py " + state;
           }
 
 		      exec(cmd, (error, stdout, stderr) => {
